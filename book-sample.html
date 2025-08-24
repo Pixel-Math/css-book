@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exemplo de Livro — Estrutura e Classes</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="book">
+    <!-- Cabeçalho da Parte -->
+    <header class="part" role="banner">
+      <p class="part__label">PARTE</p>
+      <div class="part__header">
+        <span class="part__number" aria-label="Número da parte">II</span>
+        <h1 class="part__title">Prática</h1>
+      </div>
+    </header>
+
+    <!-- Capítulo -->
+    <article class="chapter" role="article" aria-labelledby="cap-title">
+      <div class="chapter__header">
+        <span class="chapter__badge" aria-hidden="true">
+          <span class="chapter__number">11</span>
+        </span>
+        <h2 id="cap-title" class="chapter__title">
+          Aplicação 1: Reclamações por perdas
+        </h2>
+      </div>
+
+      <section class="section" aria-labelledby="sec-introducao">
+        <h3 class="section__title" id="sec-introducao">Introdução</h3>
+        <p>
+          Texto de exemplo com conteúdo fictício para demonstrar o layout.
+          Quando o conteúdo real estiver disponível, substitua estes parágrafos.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="sec-metodologia">
+        <h3 class="section__title" id="sec-metodologia">Metodologia</h3>
+        <h4 class="subsection__title">Pré-processamento</h4>
+        <p>
+          Outro parágrafo de exemplo. As cores e estilos seguem a classe CSS
+          externa com as normas definidas.
+        </p>
+      </section>
+
+      <figure class="figure">
+        <div
+          class="figure__placeholder"
+          role="img"
+          aria-label="Figura de exemplo"
+        ></div>
+        <figcaption class="figure__caption">
+          Figura 11.8 — legenda de exemplo para figura.
+        </figcaption>
+      </figure>
+
+      <table class="table">
+        <caption class="table__caption">
+          Tabela 11.1 — Título de exemplo
+        </caption>
+        <thead>
+          <tr>
+            <th>Coluna A</th>
+            <th>Coluna B</th>
+            <th>Coluna C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Valor 1</td>
+            <td>Valor 2</td>
+            <td>Valor 3</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </body>
+</html>

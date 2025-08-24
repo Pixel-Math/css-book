@@ -1,0 +1,80 @@
+/*
+	CSS do livro (EPUB-ready)
+	Cores fornecidas:
+	- Azul (bola/número do capítulo): #3b55a2
+	- Cinza (títulos de seção/subseção): #80818e
+	- Título das Partes e Capítulos: #75c9dc
+	- Número de partes/capítulos: branco
+
+	Convenções:
+	- Usar classes semânticas: .part, .chapter, .section, .subsection, .figure, .table
+	- Evitar posicionamentos absolutos; preferir layout fluido (compatível com EPUB)
+	- Tipografia com fallback, fonte Montserrat se disponível
+*/
+
+/* Reset mínimo e acessibilidade */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body.book { margin: 0; padding: 1rem; line-height: 1.6; color: #222; background: #fff; }
+img, svg { max-width: 100%; height: auto; }
+
+/* Fonte (usa Montserrat se existir, com fallback) */
+@font-face {
+	font-family: 'Montserrat';
+	src: url('fonts/Montserrat-SemiBold.otf') format('opentype');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--color-accent: #75c9dc;     /* títulos de partes e capítulos */
+	--color-badge: #3b55a2;      /* círculo/etiqueta numérica */
+	--color-muted: #80818e;      /* seções/subseções */
+	--color-text: #222;
+	--radius: 999px;
+}
+
+body.book {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-size: 1rem;
+}
+
+/* PARTES */
+.part { margin: 2rem 0 1.5rem; text-align: center; }
+.part__label { letter-spacing: 0.08em; font-weight: 600; color: #fff; background: var(--color-badge); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.part__header { display: inline-flex; align-items: center; gap: 0.75rem; }
+.part__number { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--color-badge); color: #fff; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.part__title { margin: 0; color: var(--color-accent); font-size: 2rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; text-transform: uppercase; }
+
+/* CAPÍTULOS */
+.chapter { margin: 2rem 0; }
+.chapter__header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.chapter__badge { display: inline-flex; align-items: center; justify-content: center; width: 4.5rem; height: 4.5rem; border-radius: var(--radius); background: var(--color-badge); }
+.chapter__number { color: #fff; font-size: 2rem; line-height: 1; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.chapter__title { margin: 0; color: var(--color-accent); font-size: 1.75rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+
+/* SEÇÕES e SUBSEÇÕES */
+.section { margin: 1.5rem 0; }
+.section__title { margin: 1rem 0 0.5rem; color: var(--color-muted); font-size: 1.125rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; text-transform: uppercase; }
+.subsection__title { margin: 0.75rem 0 0.5rem; color: var(--color-muted); font-size: 1rem; font-weight: 600; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.section p { margin: 0.5rem 0; }
+
+/* FIGURAS */
+.figure { margin: 1.5rem 0; }
+.figure__placeholder { width: 100%; aspect-ratio: 16/9; background: #f2f4f8; border: 1px dashed #c7cbd3; border-radius: 6px; }
+.figure__caption { margin-top: 0.5rem; color: #444; font-size: 0.95rem; }
+
+/* TABELAS */
+.table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.95rem; }
+.table__caption { caption-side: top; text-align: left; color: #444; margin-bottom: 0.5rem; font-weight: 600; }
+.table th, .table td { border: 1px solid #e1e4ea; padding: 0.5rem 0.6rem; text-align: left; }
+.table thead th { background: #f7f9fb; color: #333; font-weight: 700; }
+
+/* Utilitários */
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
