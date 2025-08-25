@@ -28,36 +28,46 @@ img, svg { max-width: 100%; height: auto; }
 }
 
 :root {
-	--color-accent: #75c9dc;     /* títulos de partes e capítulos */
-	--color-badge: #3b55a2;      /* círculo/etiqueta numérica */
-	--color-muted: #80818e;      /* seções/subseções */
-	--color-text: #222;
+	/* Variáveis descritivas de paleta */
+	--color-title: #75c9dc;                 /* Título das Partes e Capítulos */
+	--color-chapter-badge: #3b55a2;         /* Fundo do número do capítulo */
+	--color-section-muted: #80818e;         /* Títulos de seção/subseção */
+	--color-text: #222;                     /* Texto principal */
 	--radius: 999px;
+
+	/* Aliases para compatibilidade retroativa */
+	--color-accent: var(--color-title);
+	--color-badge: var(--color-chapter-badge);
+	--color-muted: var(--color-section-muted);
+
+	/* Tipografia */
+	--font-heading: Montserrat, Arial, Helvetica, sans-serif;
+	--font-body: Georgia, 'Times New Roman', Times, serif;
 }
 
 body.book {
-	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-family: var(--font-body);
 	font-size: 1rem;
 }
 
 /* PARTES */
 .part { margin: 2rem 0 1.5rem; text-align: center; }
-.part__label { letter-spacing: 0.08em; font-weight: 600; color: #fff; background: var(--color-badge); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.part__label { letter-spacing: 0.08em; font-weight: 600; color: #fff; background: var(--color-badge); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; font-family: var(--font-heading); }
 .part__header { display: inline-flex; align-items: center; gap: 0.75rem; }
-.part__number { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--color-badge); color: #fff; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
-.part__title { margin: 0; color: var(--color-accent); font-size: 2rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; text-transform: uppercase; }
+.part__number { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--color-badge); color: #fff; font-weight: 700; font-family: var(--font-heading); }
+.part__title { margin: 0; color: var(--color-accent); font-size: 2rem; font-weight: 700; font-family: var(--font-heading); text-transform: uppercase; }
 
 /* CAPÍTULOS */
 .chapter { margin: 2rem 0; }
 .chapter__header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .chapter__badge { display: inline-flex; align-items: center; justify-content: center; width: 4.5rem; height: 4.5rem; border-radius: var(--radius); background: var(--color-badge); }
-.chapter__number { color: #fff; font-size: 2rem; line-height: 1; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
-.chapter__title { margin: 0; color: var(--color-accent); font-size: 1.75rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.chapter__number { color: #fff; font-size: 2rem; line-height: 1; font-weight: 700; font-family: var(--font-heading); }
+.chapter__title { margin: 0; color: var(--color-accent); font-size: 1.75rem; font-weight: 700; font-family: var(--font-heading); }
 
 /* SEÇÕES e SUBSEÇÕES */
 .section { margin: 1.5rem 0; }
-.section__title { margin: 1rem 0 0.5rem; color: var(--color-muted); font-size: 1.125rem; font-weight: 700; font-family: Montserrat, Arial, Helvetica, sans-serif; text-transform: uppercase; }
-.subsection__title { margin: 0.75rem 0 0.5rem; color: var(--color-muted); font-size: 1rem; font-weight: 600; font-family: Montserrat, Arial, Helvetica, sans-serif; }
+.section__title { margin: 1rem 0 0.5rem; color: var(--color-muted); font-size: 1.125rem; font-weight: 700; font-family: var(--font-heading); text-transform: uppercase; }
+.subsection__title { margin: 0.75rem 0 0.5rem; color: var(--color-muted); font-size: 1rem; font-weight: 600; font-family: var(--font-heading); }
 .section p { margin: 0.5rem 0; }
 
 /* FIGURAS */
@@ -78,3 +88,7 @@ body.book {
 .mt-2 { margin-top: 0.5rem; }
 .mt-3 { margin-top: 1rem; }
 .mt-4 { margin-top: 1.5rem; }
+
+/* Oculta conteúdo legado quando o body estiver marcado como 'clean' */
+body.book.clean > :not(.__new) { display: none !important; }
+body.book.clean > .__new { display: block; }
