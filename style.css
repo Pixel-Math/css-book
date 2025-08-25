@@ -43,11 +43,19 @@ img, svg { max-width: 100%; height: auto; }
 	/* Tipografia */
 	--font-heading: Montserrat, Arial, Helvetica, sans-serif;
 	--font-body: Georgia, 'Times New Roman', Times, serif;
+
+	/* Medida ideal da linha para livros (largura de coluna) */
+	--measure: 72ch;
 }
 
 body.book {
 	font-family: var(--font-body);
 	font-size: 1rem;
+	max-width: var(--measure);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
 }
 
 /* PARTES */
@@ -68,12 +76,19 @@ body.book {
 .section { margin: 1.5rem 0; }
 .section__title { margin: 1rem 0 0.5rem; color: var(--color-muted); font-size: 1.125rem; font-weight: 700; font-family: var(--font-heading); text-transform: uppercase; }
 .subsection__title { margin: 0.75rem 0 0.5rem; color: var(--color-muted); font-size: 1rem; font-weight: 600; font-family: var(--font-heading); }
-.section p { margin: 0.5rem 0; }
+/* Parágrafos ao estilo de livro: texto justificado, hifenização e recuo da primeira linha exceto no primeiro parágrafo da seção */
+.section p { margin: 0; text-align: justify; hyphens: auto; orphans: 3; widows: 3; }
+.section > p:first-of-type { text-indent: 0; }
+.section p + p { text-indent: 1.5em; }
+/* Capitular no primeiro parágrafo do capítulo (estético, opcional) */
+.chapter .section:first-of-type > p:first-of-type::first-letter { float: left; font-size: 3.2em; line-height: 0.9; margin-right: 0.1em; font-family: var(--font-heading); color: var(--color-accent); }
 
 /* FIGURAS */
 .figure { margin: 1.5rem 0; }
 .figure__placeholder { width: 100%; aspect-ratio: 16/9; background: #f2f4f8; border: 1px dashed #c7cbd3; border-radius: 6px; }
 .figure__caption { margin-top: 0.5rem; color: #444; font-size: 0.95rem; }
+/* Evitar que figuras e tabelas quebrem no meio ao imprimir */
+.figure, figure, .table, table { break-inside: avoid; page-break-inside: avoid; }
 
 /* TABELAS */
 .table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.95rem; }
@@ -92,3 +107,20 @@ body.book {
 /* Oculta conteúdo legado quando o body estiver marcado como 'clean' */
 body.book.clean > :not(.__new) { display: none !important; }
 body.book.clean > .__new { display: block; }
+
+/* Links: discretos na tela; completos no papel */
+a { color: inherit; text-decoration: underline; text-decoration-color: var(--color-accent); }
+@media print { a { color: inherit; text-decoration: none; } a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; } }
+
+/* Impressão: tamanho de página, margens e quebras de capítulo/parte */
+@media print {
+	@page { size: A4; margin: 25mm 20mm; }
+	body.book { max-width: none; padding: 0; }
+	.part { break-before: page; }
+	.chapter { break-before: page; }
+	.part__title, .chapter__title { page-break-after: avoid; break-after: avoid; }
+	.figure__caption, .table__caption { page-break-before: avoid; }
+	.table thead { display: table-header-group; }
+}
+
+/* Cabeçalhos correntes omitidos para compatibilidade ampla de navegadores */
