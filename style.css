@@ -13,114 +13,318 @@
 */
 
 /* Reset mínimo e acessibilidade */
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body.book { margin: 0; padding: 1rem; line-height: 1.6; color: #222; background: #fff; }
-img, svg { max-width: 100%; height: auto; }
+* {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body.book {
+  margin: 0;
+  padding: 1rem;
+  line-height: 1.6;
+  color: #222;
+  background: #fff;
+}
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
 
 /* Fonte (usa Montserrat se existir, com fallback) */
 @font-face {
-	font-family: 'Montserrat';
-	src: url('fonts/Montserrat-SemiBold.otf') format('opentype');
-	font-weight: 600;
-	font-style: normal;
-	font-display: swap;
+  font-family: "Montserrat";
+  src: url("fonts/Montserrat-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
-	/* Variáveis descritivas de paleta */
-	--color-title: #75c9dc;                 /* Título das Partes e Capítulos */
-	--color-chapter-badge: #3b55a2;         /* Fundo do número do capítulo */
-	--color-section-muted: #80818e;         /* Títulos de seção/subseção */
-	--color-text: #222;                     /* Texto principal */
-	--radius: 999px;
+  /* Variáveis descritivas de paleta */
+  --color-title: #75c9dc; /* Título das Partes e Capítulos */
+  --color-chapter-badge: #3b55a2; /* Fundo do número do capítulo */
+  --color-section-muted: #80818e; /* Títulos de seção/subseção */
+  --color-text: #222; /* Texto principal */
+  --radius: 999px;
 
-	/* Aliases para compatibilidade retroativa */
-	--color-accent: var(--color-title);
-	--color-badge: var(--color-chapter-badge);
-	--color-muted: var(--color-section-muted);
+  /* Aliases para compatibilidade retroativa */
+  --color-accent: var(--color-title);
+  --color-badge: var(--color-chapter-badge);
+  --color-muted: var(--color-section-muted);
 
-	/* Tipografia */
-	--font-heading: Montserrat, Arial, Helvetica, sans-serif;
-	--font-body: Georgia, 'Times New Roman', Times, serif;
+  /* Tipografia */
+  --font-heading: Montserrat, Arial, Helvetica, sans-serif;
+  --font-body: Georgia, "Times New Roman", Times, serif;
 
-	/* Medida ideal da linha para livros (largura de coluna) */
-	--measure: 72ch;
+  /* Medida ideal da linha para livros (largura de coluna) */
+  --measure: 72ch;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
 
 body.book {
-	font-family: var(--font-body);
-	font-size: 1rem;
-	max-width: var(--measure);
-	margin-left: auto;
-	margin-right: auto;
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.25rem;
 }
 
 /* PARTES */
-.part { margin: 2rem 0 1.5rem; text-align: center; }
-.part__label { letter-spacing: 0.08em; font-weight: 600; color: #fff; background: var(--color-badge); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; font-family: var(--font-heading); }
-.part__header { display: inline-flex; align-items: center; gap: 0.75rem; }
-.part__number { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--color-badge); color: #fff; font-weight: 700; font-family: var(--font-heading); }
-.part__title { margin: 0; color: var(--color-accent); font-size: 2rem; font-weight: 700; font-family: var(--font-heading); text-transform: uppercase; }
+.part {
+  position: relative;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 5rem;
+}
+.part__background {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
+}
+.part__label,
+.part__title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-heading);
+}
+.part__label {
+  top: 50%;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: #fff;
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+}
+.part__number {
+  margin-left: 0.5rem;
+}
+.part__title {
+  top: 62%;
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 4.8rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
 
 /* CAPÍTULOS */
-.chapter { margin: 2rem 0; }
-.chapter__header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-.chapter__badge { display: inline-flex; align-items: center; justify-content: center; width: 4.5rem; height: 4.5rem; border-radius: var(--radius); background: var(--color-badge); }
-.chapter__number { color: #fff; font-size: 2rem; line-height: 1; font-weight: 700; font-family: var(--font-heading); }
-.chapter__title { margin: 0; color: var(--color-accent); font-size: 1.75rem; font-weight: 700; font-family: var(--font-heading); }
+.chapter {
+  margin: 2rem 0;
+}
+.chapter__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--color-badge);
+  border-bottom-left-radius: 50% 55%;
+  border-bottom-right-radius: 50% 55%;
+  padding: 2rem 4rem 5rem;
+  text-align: center;
+  color: #fff;
+}
+.chapter__number {
+  color: #fff;
+  font-size: 5rem;
+  line-height: 1;
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+.chapter__title {
+  margin: 0;
+  color: var(--color-accent);
+  line-height: 1.1;
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
 
 /* SEÇÕES e SUBSEÇÕES */
-.section { margin: 1.5rem 0; }
-.section__title { margin: 1rem 0 0.5rem; color: var(--color-muted); font-size: 1.125rem; font-weight: 700; font-family: var(--font-heading); text-transform: uppercase; }
-.subsection__title { margin: 0.75rem 0 0.5rem; color: var(--color-muted); font-size: 1rem; font-weight: 600; font-family: var(--font-heading); }
+.section {
+  margin: 1.5rem 0;
+}
+.section__title {
+  margin: 1rem 0 0.5rem;
+  color: var(--color-muted);
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+.subsection__title {
+  margin: 0.75rem 0 0.5rem;
+  color: var(--color-muted);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
 /* Parágrafos ao estilo de livro: texto justificado, hifenização e recuo da primeira linha exceto no primeiro parágrafo da seção */
-.section p { margin: 0; text-align: justify; hyphens: auto; orphans: 3; widows: 3; }
-.section > p:first-of-type { text-indent: 0; }
-.section p + p { text-indent: 1.5em; }
+.section p {
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+  orphans: 3;
+  widows: 3;
+}
+.section > p:first-of-type {
+  text-indent: 0;
+}
+.section p + p {
+  text-indent: 1.5em;
+}
 /* Capitular no primeiro parágrafo do capítulo (estético, opcional) */
-.chapter .section:first-of-type > p:first-of-type::first-letter { float: left; font-size: 3.2em; line-height: 0.9; margin-right: 0.1em; font-family: var(--font-heading); color: var(--color-accent); }
+.chapter .section:first-of-type > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.2em;
+  line-height: 0.9;
+  margin-right: 0.1em;
+  font-family: var(--font-heading);
+  color: var(--color-accent);
+}
 
 /* FIGURAS */
-.figure { margin: 1.5rem 0; }
-.figure__placeholder { width: 100%; aspect-ratio: 16/9; background: #f2f4f8; border: 1px dashed #c7cbd3; border-radius: 6px; }
-.figure__caption { margin-top: 0.5rem; color: #444; font-size: 0.95rem; }
+.figure {
+  margin: 1.5rem 0;
+}
+.figure__placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #f2f4f8;
+  border: 1px dashed #c7cbd3;
+  border-radius: 6px;
+}
+.figure__caption {
+  margin-top: 0.5rem;
+  color: #444;
+  font-size: 0.95rem;
+}
 /* Evitar que figuras e tabelas quebrem no meio ao imprimir */
-.figure, figure, .table, table { break-inside: avoid; page-break-inside: avoid; }
+.figure,
+figure,
+.table,
+table {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
 
 /* TABELAS */
-.table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.95rem; }
-.table__caption { caption-side: top; text-align: left; color: #444; margin-bottom: 0.5rem; font-weight: 600; }
-.table th, .table td { border: 1px solid #e1e4ea; padding: 0.5rem 0.6rem; text-align: left; }
-.table thead th { background: #f7f9fb; color: #333; font-weight: 700; }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.95rem;
+}
+.table__caption {
+  caption-side: top;
+  text-align: left;
+  color: #444;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.table th,
+.table td {
+  border: 1px solid #e1e4ea;
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+}
+.table thead th {
+  background: #f7f9fb;
+  color: #333;
+  font-weight: 700;
+}
 
 /* Utilitários */
-.text-center { text-align: center; }
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
+.text-center {
+  text-align: center;
+}
+.mt-0 {
+  margin-top: 0;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-3 {
+  margin-top: 1rem;
+}
+.mt-4 {
+  margin-top: 1.5rem;
+}
 
 /* Oculta conteúdo legado quando o body estiver marcado como 'clean' */
-body.book.clean > :not(.__new) { display: none !important; }
-body.book.clean > .__new { display: block; }
+body.book.clean > :not(.__new) {
+  display: none !important;
+}
+body.book.clean > .__new {
+  display: block;
+}
 
 /* Links: discretos na tela; completos no papel */
-a { color: inherit; text-decoration: underline; text-decoration-color: var(--color-accent); }
-@media print { a { color: inherit; text-decoration: none; } a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; } }
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+}
+@media print {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+  }
+}
 
 /* Impressão: tamanho de página, margens e quebras de capítulo/parte */
 @media print {
-	@page { size: A4; margin: 25mm 20mm; }
-	body.book { max-width: none; padding: 0; }
-	.part { break-before: page; }
-	.chapter { break-before: page; }
-	.part__title, .chapter__title { page-break-after: avoid; break-after: avoid; }
-	.figure__caption, .table__caption { page-break-before: avoid; }
-	.table thead { display: table-header-group; }
+  @page {
+    size: A4;
+    margin: 25mm 20mm;
+  }
+  body.book {
+    max-width: none;
+    padding: 0;
+  }
+  .part {
+    break-before: page;
+  }
+  .chapter {
+    break-before: page;
+  }
+  .part__title,
+  .chapter__title {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+  .figure__caption,
+  .table__caption {
+    page-break-before: avoid;
+  }
+  .table thead {
+    display: table-header-group;
+  }
 }
 
 /* Cabeçalhos correntes omitidos para compatibilidade ampla de navegadores */
