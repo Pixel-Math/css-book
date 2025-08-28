@@ -14,10 +14,12 @@
         src="./assets/partBackground.png"
         alt="Fundo do título"
       />
-      <p class="part__label">
-        PARTE<span class="part__number" aria-label="Número da parte">II</span>
-      </p>
-      <h1 class="part__title">Prática</h1>
+      <div class="part__content">
+        <p class="part__label">
+          PARTE<span class="part__number" aria-label="Número da parte">II</span>
+        </p>
+        <h1 class="part__title">Prática</h1>
+      </div>
     </header>
     <!-- Capítulo -->
     <article class="chapter" role="article" aria-labelledby="cap-title">
@@ -140,50 +142,52 @@
           pagos.
         </p>
 
-        <table class="table">
-          <caption class="table__caption">
-            Tabela 11.1: Estatísticas sobre o conjunto de dados completo.
-          </caption>
-          <thead>
-            <tr>
-              <th>Valores</th>
-              <th>Média</th>
-              <th>Q1</th>
-              <th>Q2</th>
-              <th>Q3</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Todos</td>
-              <td>87,50</td>
-              <td>0,00</td>
-              <td>0,00</td>
-              <td>89,23</td>
-            </tr>
-            <tr>
-              <td>Todos, exceto Deny</td>
-              <td>191,25</td>
-              <td>45,00</td>
-              <td>100,00</td>
-              <td>211,98</td>
-            </tr>
-            <tr>
-              <td>Approve in Full</td>
-              <td>159,37</td>
-              <td>34,93</td>
-              <td>80,56</td>
-              <td>181,89</td>
-            </tr>
-            <tr>
-              <td>Approve in Settle</td>
-              <td>254,97</td>
-              <td>65,00</td>
-              <td>150,00</td>
-              <td>300,00</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table__container">
+          <table class="table">
+            <caption class="table__caption">
+              Tabela 11.1: Estatísticas sobre o conjunto de dados completo.
+            </caption>
+            <thead>
+              <tr>
+                <th>Valores</th>
+                <th>Média</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Todos</td>
+                <td>87,50</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>89,23</td>
+              </tr>
+              <tr>
+                <td>Todos, exceto Deny</td>
+                <td>191,25</td>
+                <td>45,00</td>
+                <td>100,00</td>
+                <td>211,98</td>
+              </tr>
+              <tr>
+                <td>Approve in Full</td>
+                <td>159,37</td>
+                <td>34,93</td>
+                <td>80,56</td>
+                <td>181,89</td>
+              </tr>
+              <tr>
+                <td>Approve in Settle</td>
+                <td>254,97</td>
+                <td>65,00</td>
+                <td>150,00</td>
+                <td>300,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <p>
           Podemos notar que a média de todos os valores pagos é relativamente
@@ -256,51 +260,53 @@
           após a etapa de pré-processamento.
         </p>
 
-        <table class="table">
-          <caption class="table__caption">
-            Tabela 11.2: Estatísticas sobre o conjunto de dados após
-            pré-processamento.
-          </caption>
-          <thead>
-            <tr>
-              <th>Valores</th>
-              <th>Média</th>
-              <th>Q1</th>
-              <th>Q2</th>
-              <th>Q3</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Todos</td>
-              <td>40,65</td>
-              <td>0,00</td>
-              <td>0,00</td>
-              <td>56,15</td>
-            </tr>
-            <tr>
-              <td>Exceto Deny</td>
-              <td>98,53</td>
-              <td>37,00</td>
-              <td>77,55</td>
-              <td>149,99</td>
-            </tr>
-            <tr>
-              <td>Approve in Full</td>
-              <td>89,70</td>
-              <td>29,75</td>
-              <td>68,75</td>
-              <td>132,71</td>
-            </tr>
-            <tr>
-              <td>Approve in Settle</td>
-              <td>119,15</td>
-              <td>50,00</td>
-              <td>100,00</td>
-              <td>175,00</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table__container">
+          <table class="table">
+            <caption class="table__caption">
+              Tabela 11.2: Estatísticas sobre o conjunto de dados após
+              pré-processamento.
+            </caption>
+            <thead>
+              <tr>
+                <th>Valores</th>
+                <th>Média</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Todos</td>
+                <td>40,65</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>56,15</td>
+              </tr>
+              <tr>
+                <td>Exceto Deny</td>
+                <td>98,53</td>
+                <td>37,00</td>
+                <td>77,55</td>
+                <td>149,99</td>
+              </tr>
+              <tr>
+                <td>Approve in Full</td>
+                <td>89,70</td>
+                <td>29,75</td>
+                <td>68,75</td>
+                <td>132,71</td>
+              </tr>
+              <tr>
+                <td>Approve in Settle</td>
+                <td>119,15</td>
+                <td>50,00</td>
+                <td>100,00</td>
+                <td>175,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="section" aria-labelledby="sec-11-3">

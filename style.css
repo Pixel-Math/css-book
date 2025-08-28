@@ -22,7 +22,6 @@ html {
 }
 body.book {
   margin: 0;
-  padding: 1rem;
   line-height: 1.6;
   color: #222;
   background: #fff;
@@ -63,62 +62,55 @@ svg {
   --measure: 72ch;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-}
-
 body.book {
   font-family: var(--font-body);
   font-size: 1rem;
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 0 1.25rem;
 }
 
 /* PARTES */
 .part {
   position: relative;
+  display: grid;
+  place-items: center;
   text-align: center;
-  margin: 0;
-  margin-bottom: 5rem;
+  margin-bottom: 10rem;
+  overflow: hidden;
 }
 .part__background {
+  grid-area: 1 / 1;
   width: 100%;
   height: auto;
-  margin: 0;
   display: block;
+}
+.part__content {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 40%;
 }
 .part__label,
 .part__title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-heading);
+  position: static;
+  transform: none;
+  margin: 0;
 }
 .part__label {
-  top: 50%;
-  font-size: 2rem;
+  font-size: clamp(1rem, 4vw, 10rem);
   letter-spacing: 0.08em;
   font-weight: 600;
   color: #fff;
-  display: inline-block;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
   font-family: var(--font-heading);
 }
 .part__number {
   margin-left: 0.5rem;
 }
 .part__title {
-  top: 62%;
   margin: 0;
   color: var(--color-accent);
-  font-size: 4.8rem;
+  font-size: clamp(1rem, 12vw, 30rem);
   font-weight: 700;
   font-family: var(--font-heading);
   text-transform: uppercase;
@@ -127,19 +119,20 @@ body.book {
 /* CAPÍTULOS */
 .chapter {
   margin: 2rem 0;
+  position: relative;
 }
 .chapter__header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
   background: var(--color-badge);
-  border-bottom-left-radius: 50% 55%;
-  border-bottom-right-radius: 50% 55%;
-  padding: 2rem 4rem 5rem;
+  flex-wrap: wrap;
+  border-radius: 0 0 50% 50% / 0 0 300px 300px;
+  padding: 3rem clamp(8rem, 25vw, 20rem) 6rem;
   text-align: center;
-  color: #fff;
+  color: var(--color-accent);
 }
 .chapter__number {
   color: #fff;
@@ -160,7 +153,9 @@ body.book {
 
 /* SEÇÕES e SUBSEÇÕES */
 .section {
-  margin: 1.5rem 0;
+  margin: 1.5rem auto;
+  max-width: var(--measure);
+  padding: 0 1.25rem;
 }
 .section__title {
   margin: 1rem 0 0.5rem;
@@ -227,6 +222,10 @@ table {
 }
 
 /* TABELAS */
+.table__container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -303,10 +302,6 @@ a {
     size: A4;
     margin: 25mm 20mm;
   }
-  body.book {
-    max-width: none;
-    padding: 0;
-  }
   .part {
     break-before: page;
   }
@@ -324,6 +319,33 @@ a {
   }
   .table thead {
     display: table-header-group;
+  }
+}
+
+@media (max-width: 720px) {
+  .chapter__header {
+    padding: 3rem clamp(2rem, 15vw, 20rem) 6rem;
+    border-radius: 0 0 50% 50% / 0 0 250px 250px;
+  }
+  .chapter__number {
+    font-size: 4rem;
+  }
+  .chapter__title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chapter__header {
+    padding: 3rem clamp(1rem, 2vw, 20rem) 6rem;
+    border-radius: 0 0 50% 50% / 0 0 150px 150px;
+  }
+  .chapter__number {
+    font-size: 3rem;
+  }
+  .chapter__title {
+    font-size: 2rem;
+    text-align: center;
   }
 }
 
