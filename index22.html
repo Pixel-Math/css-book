@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Css para Livro</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="book">
+    <!-- Cabeçalho da Parte -->
+    <header class="part" role="banner">
+      <img
+        class="part__background"
+        src="./assets/partBackground.png"
+        alt="Fundo do título"
+      />
+      <div class="part__content">
+        <p class="part__label">
+          PARTE<span class="part__number" aria-label="Número da parte">II</span>
+        </p>
+        <h1 class="part__title">Prática</h1>
+      </div>
+    </header>
+    <!-- Capítulo -->
+    <article class="chapter" role="article" aria-labelledby="cap-title">
+      <div class="chapter__header">
+        <span class="chapter__number">11</span>
+        <h2 id="cap-title" class="chapter__title">
+          Aplicação 1: Reclamações por perdas
+        </h2>
+      </div>
+
+      <section class="section" aria-labelledby="sec-introducao">
+        <h3 class="section__title" id="sec-introducao">Introdução</h3>
+        <p>
+          Neste capítulo, veremos como aplicar os conhecimentos obtidos ao
+          conjunto de dados chamado TSA Claims Data (Dados de Reclamações TSA).
+          A sigla TSA se refere à agência americana Transportation Security
+          Administration (Administração de Segurança de Transporte), responsável
+          por supervisionar o sistema de transporte nos Estados Unidos. Esse
+          conjunto de dados, que pode ser obtido no link
+          <a
+            href="https://www.dhs.gov/tsa-claims-data"
+            target="_blank"
+            rel="noopener"
+            >https://www.dhs.gov/tsa-claims-data</a
+          >
+          do próprio governo norteamericano, foca nas reclamações de clientes em
+          aeroportos. Analisaremos as reclamações registradas no ano de 2015 –
+          no site, o arquivo está nomeado como
+          <em>Claims Data 2015 (as of Feb. 9, 2016).xlsx</em>.
+        </p>
+        <p>
+          O objetivo dessa análise não é determinar qual é a melhor ou pior
+          companhia aérea (ou aeroporto), mas sim extrair informações dos dados
+          e recomendar tomadas de decisão para clientes. Começaremos realizando
+          análises descritivas para entender os dados. Em seguida, aplicaremos
+          técnicas de pré-processamento de dados para garantir que a análise
+          seja pertinente e que não haja dados discrepantes.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-1">
+        <h3 class="section__title" id="sec-11-1">11.1 Análise Descritiva</h3>
+        <p>
+          O conjunto de dados possui, ao todo, 8667 registros de reclamações
+          descritas por 11 variáveis, sendo uma quantitativa e as demais
+          qualitativas. O nome, a descrição, os possíveis valores e a quantidade
+          de ocorrências de cada valor que uma variável pode assumir estão
+          listados a seguir:
+        </p>
+        <ul>
+          <li>
+            <strong>Claim Number</strong>: o número da reclamação, funciona como
+            um identificador único, portanto todos os valores são diferentes.
+          </li>
+          <li>
+            <strong>Date Received</strong>: a data que a reclamação foi
+            registrada.
+          </li>
+          <li>
+            <strong>Incident D</strong>: data na qual foi relatado o incidente.
+          </li>
+          <li>
+            <strong>Airport Code</strong>: código do aeroporto onde aconteceu o
+            incidente. Ao total, foram registrados incidentes em 301 aeroportos.
+          </li>
+          <li><strong>Airport Name</strong>: nome do aeroporto.</li>
+          <li>
+            <strong>Airline Name</strong>: nome da companhia aérea relacionada à
+            reclamação. O conjunto de dados contém informações de 119 companhias
+            aéreas.
+          </li>
+          <li>
+            <strong>Claim Type</strong>: tipo de reclamação. São 7 tipos de
+            reclamações registradas: <em>Passenger Property Loss</em> (Perda de
+            propriedade do passageiro, com 4551 registros),
+            <em>Property Damage</em> (Danos materiais, com 3888 registros),
+            <em>Personal Injury</em> (Danos pessoais, com 122 registros),
+            <em>Motor Vehicle</em> (Veículo, com 35 registros), “−” (indefinido,
+            com 34 registros), <em>Complaint</em> (Reclamação, com 28 registros)
+            e <em>Employee Loss - MPCECA</em> (Perda de funcionário, com 9
+            resgistros)
+          </li>
+          <li>
+            <strong>Claim Site</strong>: local onde aconteceu o incidente
+            apontado pela reclamação. Ao todo, são 6 locais:
+            <em>Checked Baggage</em> (Bagagem despachada, 6261),
+            <em>Checkpoint</em> (Ponto de verificação, 2293),
+            <em>Motor Vehicle</em> (Veículo, 49), “−” (indefinido, 39)
+            <em>Other</em> (outro, 24), <em>Bus Station</em> (Estação de ônibus,
+            1)
+          </li>
+          <li>
+            <strong>Item Category</strong>: classificação do item que o cliente
+            relatou na reclamação. Ao total, são 567 tipos de itens registrados.
+            Os mais frequentes são:
+            <em>Baggage/Cases/Purses</em> (bagagens/estojos/bolsas, 1004),
+            <em>Computer e Accessories</em> (Computador e acessórios, 736),
+            <em>Clothing</em> (vestuário, 723)
+          </li>
+          <li>
+            <strong>Close Amount</strong>: quantia aproximada do valor do item
+            relatado na reclamação.
+          </li>
+          <li>
+            <strong>Disposition</strong>: decisão final após a avaliação da
+            reclamação do cliente. Existem 4 possíveis decisões no conjunto de
+            dados: <em>Deny</em> (negar, 3574), “−” (indefinido, 2066),
+            <em>Approve in Full</em> (aprovar na íntegra, 1958),
+            <em>Settle</em> (pagar o valor devido, 1069).
+          </li>
+        </ul>
+        <p>
+          Nesse conjunto de dados, a variável Close Amount pode ser uma possível
+          variável alvo, assim como Disposition. A Tabela 11.1 mostra 4
+          estatísticas: média, primeiro quartil (Q1), mediana (Q2) e o terceiro
+          quartil (Q3) para a variável Close Amount, separando o conjunto de
+          dados de acordo com a variável Disposition: o conjunto completo de
+          dados, todas as reclamações, exceto as que foram negadas (Deny), todas
+          as reclamações completamente aprovadas e as reclamações com valores
+          pagos.
+        </p>
+
+        <div class="table__container">
+          <table class="table">
+            <caption class="table__caption">
+              Tabela 11.1: Estatísticas sobre o conjunto de dados completo.
+            </caption>
+            <thead>
+              <tr>
+                <th>Valores</th>
+                <th>Média</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Todos</td>
+                <td>87,50</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>89,23</td>
+              </tr>
+              <tr>
+                <td>Todos, exceto Deny</td>
+                <td>191,25</td>
+                <td>45,00</td>
+                <td>100,00</td>
+                <td>211,98</td>
+              </tr>
+              <tr>
+                <td>Approve in Full</td>
+                <td>159,37</td>
+                <td>34,93</td>
+                <td>80,56</td>
+                <td>181,89</td>
+              </tr>
+              <tr>
+                <td>Approve in Settle</td>
+                <td>254,97</td>
+                <td>65,00</td>
+                <td>150,00</td>
+                <td>300,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Podemos notar que a média de todos os valores pagos é relativamente
+          baixa quando comparada com outras decisões. Por outro lado, para
+          decisões do tipo <em>Settle</em> (pagar o valor devido), todas as
+          quatro estatísticas apresentaram valores mais altos. Isso mostra que,
+          provavelmente, você não receberá nada pela reclamação registrada.
+          Entretanto, se sua reclamação for acatada e houver uma decisão de
+          pagar o valor devido (<em>Settle</em>), é provável que você receba, em
+          média, 254,97 dólares. Além disso, apenas 25% das reclamações foram
+          acatadas e resultaram em valores pagos acima de 300 dólares.
+        </p>
+
+        <p>
+          A Figura 11.1 apresenta boxplots que mostram o comportamento dos
+          valores de Close Amount para cada um dos possíveis tipos de
+          reclamação, conforme a variável Disposition.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Boxplot de Close Amount por Disposition (Figura 11.1)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.1: Boxplot para cada um dos possíveis tipos de reclamação.
+          </figcaption>
+        </figure>
+
+        <p>
+          É possível perceber que, independentemente da decisão tomada após a
+          reclamação do cliente, valores acima de 500 dólares são considerados
+          fora do padrão (ou outliers). Valores próximos de 5000 são possíveis
+          de encontrar, mas são improváveis. Pode-se afirmar que valores entre 0
+          e 650 dólares (limite superior aproximado do boxplot para
+          <em>Settle</em>) são mais prováveis de serem registrados em uma
+          reclamação de perda de itens nesses aeroportos.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-2">
+        <h3 class="section__title" id="sec-11-2">11.2 Pré-processamento</h3>
+        <p>
+          Ao analisar os valores que as variáveis podem assumir, é possível
+          notar que alguns desses valores estão registrados como “−”, o que
+          indica a ausência de informações. Assim, para que a extração de dados
+          seja mais eficiente, todas as reclamações que tinham o valor “−” em
+          algumas das variáveis foram removidas. Mais especificamente, as
+          seguintes variáveis apresentaram esse valor: Close Amount, Claim Type,
+          Claim Site e Airline Name. Após essa etapa, o conjunto de dados passou
+          a conter 6231 reclamações.
+        </p>
+        <p>
+          Outra etapa realizada no pré-processamento foi a seleção das cinco
+          companhias aéreas mais listadas no conjunto de dados. O objetivo foi
+          focar no estudo das companhias que potencialmente poderiam gerar
+          alguma insatisfação do serviço prestado, conforme relatado pelos
+          clientes. As companhias aéreas selecionadas e o número de reclamações
+          correspondentes presentes no conjunto de dados são: Southwest Airlines
+          (1213), Delta Air Lines (1103), American Airlines (867), UAL (858) e
+          USAir (501). Assim, após essa etapa, o conjunto de dados passou a
+          conter 4542 reclamações. Isso significa que as companhias aéreas
+          selecionadas representam 72,89% do total de reclamações registradas.
+        </p>
+        <p>
+          A Tabela 11.2 mostra as estatísticas de média, primeiro quartil (Q1),
+          mediana (Q2) e terceiro quartil (Q3) para a variável Close Amount,
+          separando o conjunto de dados de acordo com a variável Disposition,
+          após a etapa de pré-processamento.
+        </p>
+
+        <div class="table__container">
+          <table class="table">
+            <caption class="table__caption">
+              Tabela 11.2: Estatísticas sobre o conjunto de dados após
+              pré-processamento.
+            </caption>
+            <thead>
+              <tr>
+                <th>Valores</th>
+                <th>Média</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Todos</td>
+                <td>40,65</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>56,15</td>
+              </tr>
+              <tr>
+                <td>Exceto Deny</td>
+                <td>98,53</td>
+                <td>37,00</td>
+                <td>77,55</td>
+                <td>149,99</td>
+              </tr>
+              <tr>
+                <td>Approve in Full</td>
+                <td>89,70</td>
+                <td>29,75</td>
+                <td>68,75</td>
+                <td>132,71</td>
+              </tr>
+              <tr>
+                <td>Approve in Settle</td>
+                <td>119,15</td>
+                <td>50,00</td>
+                <td>100,00</td>
+                <td>175,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-3">
+        <h3 class="section__title" id="sec-11-3">
+          11.3 Análise das Reclamações
+        </h3>
+        <p>
+          Com essa análise, buscamos identificar quais características das
+          reclamações (variáveis) mais contribuem para um cliente ter sua queixa
+          aceita ou não. Para isso, vamos dividir nosso conjunto de reclamações
+          em duas grandes classes: <em>Deny</em> e <em>Not-deny</em> (todas as
+          reclamações, exceto <em>Deny</em>). Além disso, removeremos as
+          variáveis que não trazem nenhuma contribuição para a extração de
+          informação (<em>Claim Number</em>, por exemplo) ou variáveis com
+          semânticas semelhantes (<em>Airport Code</em> e
+          <em>Airport Name</em>). Ao final, temos as seguintes variáveis:
+          <em>Airline Name</em>, <em>Claim Type</em>, <em>Claim Site</em> e
+          <em>Disposition</em>.
+        </p>
+        <p>
+          Para extrair as contribuições das variáveis para a classificação,
+          utilizaremos os algoritmos de Aprendizagem de Máquina: Regressão
+          Logística, Árvore de Decisão e Floresta Aleatória. Como esses
+          algoritmos usam variáveis numéricas e as variáveis do conjunto de
+          dados são categóricas, faremos uma transformação dessas variáveis
+          usando a função “pandas.get_dummies” em Python. O conjunto de dados
+          foi dividido em treinamento e teste, na proporção de 70 − 30%,
+          respectivamente.
+        </p>
+        <p>
+          Após a construção de um modelo usando o conjunto de treinamento, os
+          resultados da execução do modelo no conjunto de teste são obtidos. A
+          Figura 11.2 mostra a importância das variáveis identificada pela
+          Regressão Logística.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Importância das variáveis na Regressão Logística (Figura 11.2)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.2: Importância das variáveis na Regressão Logística.
+          </figcaption>
+        </figure>
+
+        <p>
+          Podemos observar que o local “checkpoint” e o tipo de reclamação
+          “property damage” são as variáveis que mais contribuem para não negar
+          a quantia declarada na reclamação. Por outro lado, o local “other” e o
+          tipo de reclamação “personal injury” contribuem para a negação. A
+          Árvore de Decisão confirma a importância das variáveis “checkpoint” e
+          “property damage”.
+        </p>
+        <p>
+          Além das variáveis “checkpoint” e “property damage”, Floresta
+          Aleatória também considerou como importantes as variáveis “checked
+          baggage” e “passenger property loss”.
+        </p>
+        <p>
+          Além da análise da importância das variáveis, outra ferramenta
+          interessante para o cientista de dados é chamada Shap. O principal
+          objetivo dessa abordagem é explicar a saída de qualquer modelo de
+          Aprendizagem de Máquina, fazendo uma relação entre as variáveis de
+          entrada e o valor predito pelo modelo. Isso é importante para
+          compreender o aprendizado obtido por um modelo, mesmo que ele seja do
+          tipo caixa-preta. A relação entre as variáveis e o valor predito deixa
+          mais clara a correlação capturada pelos modelos (lembre-se de que
+          correlação é diferente de causalidade e, portanto, devemos usar essa
+          informação com responsabilidade). O gráfico chamado Shap Beeswarm tem
+          como objetivo mostrar essa relação instância por instância do conjunto
+          de dados, onde cada ponto no gráfico representa uma instância. As
+          figuras 11.5, 11.6 e 11.7 ilustram a representação Shap Beeswarm para
+          os modelos obtidos pela Regressão Logística, Árvore de Decisão e
+          Floresta Aleatória, respectivamente.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Shap Beeswarm na Regressão Logística (Figura 11.5)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.5: Shap Beeswarm na Regressão Logística.
+          </figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Importância das variáveis na Árvore de Decisão (Figura 11.3)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.3: Importância das variáveis na Árvore de Decisão.
+          </figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Importância das variáveis na Floresta Aleatória (Figura 11.4)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.4: Importância das variáveis na Floresta Aleatória.
+          </figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Shap Beeswarm na Árvore de Decisão (Figura 11.6)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.6: Shap Beeswarm na Árvore de Decisão.
+          </figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Shap Beeswarm na Floresta Aleatória (Figura 11.7)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.7: Shap Beeswarm na Floresta Aleatória.
+          </figcaption>
+        </figure>
+
+        <p>
+          Podemos notar, no modelo Regressão Linear, que o valor “checkpoint”
+          tem de fato uma relevância para decidir se um cliente terá seu pedido
+          aceito ou negado. Os valores “property damage” e “passenger property
+          loss” também contribuem positivamente. Na Árvore de Decisão, as
+          variáveis “checkpoint” e “property demage” são as que mais influenciam
+          na decisão. Já na Floresta Aleatória, embora “property demage” e
+          “checkpoint” tenham uma influência positiva, a variável “checked
+          baggage” tem uma influência forte e negativa na decisão.
+        </p>
+        <p>
+          Em resumo, o cliente que alegar que teve uma perda ou dano à sua
+          propriedade, e que esse fato aconteceu no ponto de verificação, existe
+          uma grande chance de sua reclamação ser atendida.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-4">
+        <h3 class="section__title" id="sec-11-4">
+          11.4 Análise dos Valores Recebidos
+        </h3>
+        <p>
+          Na seção anterior, realizamos a análise baseada na decisão de aceitar
+          ou negar o pedido de consideração da reclamação feita pelo cliente.
+          Após as análises, sabemos quais tipos de reclamações e locais são mais
+          propensos a serem aceitos ou negados, mas não sabemos quanto o cliente
+          pode receber caso seu pedido seja considerado. Esta seção analisará
+          essa segunda questão. Para isso, removeremos as reclamações negadas,
+          ou seja, aquelas cujos valores das decisões (representados pela
+          variável “Disposition”) sejam diferentes de 0. Além disso, com base na
+          Tabela 11.1, os valores devidos pagos (“Approved in Settle”) tem o
+          terceiro quartil (Q3) igual a $300, ou seja, apenas 25% das
+          reclamações tem valores acima de $300. Assim, consideraremos nesta
+          análise apenas os valores abaixo de $300, com o objetivo de considerar
+          apenas os valores mais prováveis e remover possíveis outliers. A
+          Figura 11.8 mostra um boxplot para cada tipo de decisão, considerando
+          apenas os valores menores que $300.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Boxplot para tipos de reclamações considerando valores menores que $300 (Figura 11.8)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.8: Boxplot para cada um dos possíveis tipos de reclamações
+            considerando valores recebidos menores que $300.
+          </figcaption>
+        </figure>
+
+        <p>
+          Também removeremos as variáveis “Claim Number”, “Date Received”,
+          “Incident D”, “Airport Code”, “Disposition”, “Item Category” e
+          “Airport Name”, pois elas não contribuem para a extração da informação
+          que queremos analisar. Assim, temos um problema de regressão, onde o
+          objetivo é predizer o valor recebido (variável “Close Amount”) com
+          base nas variáveis independentes que caracterizam as reclamações.
+          Consideraremos o algoritmo Floresta Aleatória para gerar um modelo de
+          regressão para o nosso conjunto de dados, que será dividido em
+          conjunto de treinamento e de teste com a proporção 70 − 30%.
+        </p>
+        <p>
+          A Figura 11.9 mostra a importância das variáveis para predizer o valor
+          recebido.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Importância das variáveis na Floresta Aleatória na predição do valor recebido (Figura 11.9)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.9: Importância das variáveis na Floresta Aleatória na
+            predição do valor recebido.
+          </figcaption>
+        </figure>
+
+        <p>
+          Podemos perceber que as variáveis “Claim Type” e “Claim Site” (tipo e
+          lugar registrados na reclamação) contribuem com um maior peso para
+          decidir o valor final a ser recebido pelo cliente. Vamos analisar o
+          Shap Beeswarm para a predição dos valores recebidos usando o algoritmo
+          Floresta Aleatória, mostrado na Figura 11.10.
+        </p>
+
+        <figure class="figure">
+          <div
+            class="figure__placeholder"
+            role="img"
+            aria-label="Shap Beeswarm para Floresta Aleatória na predição de valores recebidos (Figura 11.10)"
+          ></div>
+          <figcaption class="figure__caption">
+            Figura 11.10: Shap Beeswarm para Floresta Aleatória na predição de
+            valores recebidos.
+          </figcaption>
+        </figure>
+
+        <p>
+          O Shap mostra que, apesar do tipo de reclamação ser uma variável
+          importante, o valor recebido pode variar dependendo do valor dessa
+          variável. Mais especificamente, quando o tipo da reclamação é
+          “property damage”, o valor recebido varia positivamente. Por outro
+          lado, quando o tipo da reclamação é “passenger property loss”, o valor
+          recebido varia negativamente. Isso quer dizer que um dano à
+          propriedade pode resultar em o cliente receber um valor maior do que
+          se a reclamação fosse sobre perda da propriedade.
+        </p>
+        <p>
+          De forma semelhante, pela figura da importância das variáveis obtida
+          pela Floresta Aleatória, o local é uma característica da reclamação
+          que influencia o valor recebido. Entretanto, com base no Shap, o valor
+          recebido pode variar dependendo do local. Se o local for
+          “checkpoint”...
+        </p>
+      </section>
+    </article>
+  </body>
+</html>
