@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplicação 1: Reclamações por Perdas</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="book">
+
+    <header class="part" role="banner">
+      <img
+        class="part__background"
+        src="./assets/partBackground.png"
+        alt="Fundo do título"
+      />
+      <div class="part__content">
+        <p class="part__label">
+          PARTE<span class="part__number" aria-label="Número da parte">II</span>
+        </p>
+        <h1 class="part__title">Prática</h1>
+      </div>
+    </header>
+    
+    <article class="chapter" role="article" aria-labelledby="cap-title">
+      <div class="chapter__header">
+        <span class="chapter__number">11</span>
+        <h2 id="cap-title" class="chapter__title">
+          Aplicação 1: Reclamações por perdas
+        </h2>
+      </div>
+
+      <section class="section" aria-labelledby="sec-introducao">
+        <h3 class="section__title" id="sec-introducao">Introdução</h3>
+        <p>
+            Neste capítulo, veremos como aplicar os conhecimentos obtidos ao conjunto de dados chamado 
+            <em>TSA Claims Data</em> (Dados de Reclamações TSA). A sigla TSA se refere à agência americana 
+            <em>Transportation Security Administration</em> (Administração de Segurança de Transporte), responsável por supervisionar o sistema de transporte nos Estados Unidos.
+            Esse conjunto de dados, disponível em 
+            <a href="https://www.dhs.gov/tsa-claims-data" target="_blank">https://www.dhs.gov/tsa-claims-data</a>,
+            foca nas reclamações de clientes em aeroportos.
+        </p>
+
+        <p>
+            Analisaremos as reclamações registradas no ano de 2015 — o arquivo no site está nomeado como 
+            <em>Claims Data 2015 (as of Feb. 9, 2016).xlsx</em>. O objetivo não é identificar a melhor ou pior companhia aérea, 
+            mas sim extrair informações dos dados e recomendar ações para os clientes.
+        </p>
+
+        <p>
+            Começaremos com análises descritivas, depois faremos o pré-processamento dos dados, e em seguida utilizaremos algoritmos de Aprendizado de Máquina para extrair conhecimento.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-1">
+        <h3 class="section__title" id="sec-11-1">11.1 Análise Descritiva</h3>
+
+        <p>
+            O conjunto de dados possui 8667 registros de reclamações descritas por 11 variáveis, sendo uma quantitativa e as demais qualitativas:
+        </p>
+
+        <ul>
+            <li><strong>Claim Number:</strong> identificador único.</li>
+            <li><strong>Date Received:</strong> data da reclamação.</li>
+            <li><strong>Incident D:</strong> data do incidente.</li>
+            <li><strong>Airport Code:</strong> código do aeroporto (301 diferentes).</li>
+            <li><strong>Airport Name:</strong> nome do aeroporto.</li>
+            <li><strong>Airline Name:</strong> nome da companhia aérea (119 diferentes).</li>
+            <li><strong>Claim Type:</strong> tipo de reclamação, incluindo:
+                <ul>
+                    <li>Passenger Property Loss (4551)</li>
+                    <li>Property Damage (3888)</li>
+                    <li>Personal Injury (122)</li>
+                    <li>Motor Vehicle (35)</li>
+                    <li>"-" (34)</li>
+                    <li>Complaint (28)</li>
+                    <li>Employee Loss - MPCECA (9)</li>
+                </ul>
+            </li>
+            <li><strong>Claim Site:</strong> local do incidente:
+                <ul>
+                    <li>Checked Baggage (6261)</li>
+                    <li>Checkpoint (2293)</li>
+                    <li>Motor Vehicle (49)</li>
+                    <li>"-" (39)</li>
+                    <li>Other (24)</li>
+                    <li>Bus Station (1)</li>
+                </ul>
+            </li>
+            <li><strong>Item Category:</strong> categoria do item reclamado (567 tipos, os mais comuns: Baggage/Cases/Purses, Computer e Accessories, Clothing).</li>
+            <li><strong>Close Amount:</strong> valor aproximado do item perdido.</li>
+            <li><strong>Disposition:</strong> decisão final: Deny (3574), "-" (2066), Approve in Full (1958), Settle (1069).</li>
+        </ul>
+
+        <p>
+            As variáveis <em>Close Amount</em> e <em>Disposition</em> podem ser consideradas variáveis-alvo. Veja a tabela a seguir:
+        </p>
+
+        <div class="table__container">
+            <table class="table">
+                <caption class="table__caption">Estatísticas sobre o conjunto de dados completo</caption>
+                <thead>
+                    <tr>
+                        <th>Valores</th>
+                        <th>Média</th>
+                        <th>Q1</th>
+                        <th>Q2</th>
+                        <th>Q3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Todos</td><td>87,50</td><td>0,00</td><td>0,00</td><td>89,23</td></tr>
+                    <tr><td>Exceto Deny</td><td>191,25</td><td>45,00</td><td>100,00</td><td>211,98</td></tr>
+                    <tr><td>Approve in Full</td><td>159,37</td><td>34,93</td><td>80,56</td><td>181,89</td></tr>
+                    <tr><td>Settle</td><td>254,97</td><td>65,00</td><td>150,00</td><td>300,00</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <figure class="figure">
+            <img src="./img/boxblot_todos_completo_box.pdf" alt="Boxplot das decisões por tipo de reclamação" class="figure__image">
+            <figcaption class="figure__caption">Boxplot para cada um dos possíveis tipos de reclamação.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-2">
+        <h3 class="section__title" id="sec-11-2">11.2 Pré-processamento</h3>
+        <p>Remoção de registros com valores "-" nas variáveis <em>Close Amount</em>, <em>Claim Type</em>, <em>Claim Site</em> e <em>Airline Name</em>. Restaram 6231 reclamações.</p>
+        <p>Selecionaram-se as 5 companhias com mais registros: Southwest Airlines, Delta Air Lines, American Airlines, UAL e USAir, totalizando 4542 registros (72,89% do total).</p>
+
+        <div class="table__container">
+            <table class="table">
+                <caption class="table__caption">Estatísticas após o pré-processamento</caption>
+                <thead>
+                    <tr>
+                        <th>Valores</th>
+                        <th>Média</th>
+                        <th>Q1</th>
+                        <th>Q2</th>
+                        <th>Q3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Todos</td><td>40,65</td><td>0,00</td><td>0,00</td><td>56,15</td></tr>
+                    <tr><td>Exceto Deny</td><td>98,53</td><td>37,00</td><td>77,55</td><td>149,99</td></tr>
+                    <tr><td>Approve in Full</td><td>89,70</td><td>29,75</td><td>68,75</td><td>132,71</td></tr>
+                    <tr><td>Approve in Settle</td><td>119,15</td><td>50,00</td><td>100,00</td><td>175,00</td></tr>
+                </tbody>
+            </table>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-3">
+        <h3 class="section__title" id="sec-11-3">11.3 Análise das Reclamações</h3>
+
+        <p>Foi feita uma classificação entre <strong>Deny</strong> e <strong>Not-deny</strong>. Foram utilizadas as variáveis: Airline Name, Claim Type, Claim Site e Disposition.</p>
+        <p>Modelos aplicados: Regressão Logística, Árvore de Decisão, Floresta Aleatória.</p>
+
+        <figure class="figure">
+            <img src="./img/clf_feature_importance_LR.pdf" alt="Importância das variáveis - Regressão Logística" class="figure__image">
+            <figcaption class="figure__caption">Importância das variáveis na Regressão Logística.</figcaption>
+        </figure>
+
+        <figure class="figure">
+            <img src="./img/clf_feature_importance_DT.pdf" alt="Importância - Árvore de Decisão" class="figure__image">
+            <figcaption class="figure__caption">Importância das variáveis na Árvore de Decisão.</figcaption>
+        </figure>
+
+        <figure class="figure">
+            <img src="./img/clf_feature_importance_RF.pdf" alt="Importância - Floresta Aleatória" class="figure__image">
+            <figcaption class="figure__caption">Importância das variáveis na Floresta Aleatória.</figcaption>
+        </figure>
+
+        <h3 class="subsection__title">Explicações com SHAP</h3>
+
+        <figure class="figure">
+            <img src="./img/clf_shap_beeswarm_LR.pdf" alt="SHAP - Regressão Logística" class="figure__image">
+            <figcaption class="figure__caption">SHAP Beeswarm - Regressão Logística.</figcaption>
+        </figure>
+
+        <figure class="figure">
+            <img src="./img/clf_shap_beeswarm_DT.pdf" alt="SHAP - Árvore de Decisão" class="figure__image">
+            <figcaption class="figure__caption">SHAP Beeswarm - Árvore de Decisão.</figcaption>
+        </figure>
+
+        <figure class="figure">
+            <img src="./img/clf_shap_beeswarm_RF.pdf" alt="SHAP - Floresta Aleatória" class="figure__image">
+            <figcaption class="figure__caption">SHAP Beeswarm - Floresta Aleatória.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section" aria-labelledby="sec-11-4">
+        <h3 class="section__title" id="sec-11-4">11.4 Análise dos Valores Recebidos</h3>
+
+        <p>Remoção de registros com <em>Disposition = Deny</em>. Apenas valores menores que $300 foram considerados (Q3 de Settle).</p>
+
+        <figure class="figure">
+            <img src="./img/boxblot_todos_box.pdf" alt="Boxplot com valores abaixo de 300" class="figure__image">
+            <figcaption class="figure__caption">Boxplot para tipos de reclamações com valores recebidos menores que $300.</figcaption>
+        </figure>
+
+        <p>Foi realizada uma regressão com Floresta Aleatória para prever o valor recebido.</p>
+
+        <figure class="figure">
+            <img src="./img/close_feature_importance_RF.pdf" alt="Importância para valor recebido" class="figure__image">
+            <figcaption class="figure__caption">Importância das variáveis na Floresta Aleatória para predição do valor recebido.</figcaption>
+        </figure>
+
+        <figure class="figure">
+            <img src="./img/close_shap_beeswarm_RF.pdf" alt="SHAP valor recebido" class="figure__image">
+            <figcaption class="figure__caption">SHAP Beeswarm para predição de valores recebidos com Floresta Aleatória.</figcaption>
+        </figure>
+      </section>
+    </article>
+</body>
+</html>
