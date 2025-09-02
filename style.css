@@ -1,15 +1,15 @@
 /*
-	CSS do livro (EPUB-ready)
-	Cores fornecidas:
-	- Azul (bola/número do capítulo): #3b55a2
-	- Cinza (títulos de seção/subseção): #80818e
-	- Título das Partes e Capítulos: #75c9dc
-	- Número de partes/capítulos: branco
+    CSS do livro (EPUB-ready)
+    Cores fornecidas:
+    - Azul (bola/número do capítulo): #3b55a2
+    - Cinza (títulos de seção/subseção): #80818e
+    - Título das Partes e Capítulos: #75c9dc
+    - Número de partes/capítulos: branco
 
-	Convenções:
-	- Usar classes semânticas: .part, .chapter, .section, .subsection, .figure, .table
-	- Evitar posicionamentos absolutos; preferir layout fluido (compatível com EPUB)
-	- Tipografia com fallback, fonte Montserrat se disponível
+    Convenções:
+    - Usar classes semânticas: .part, .chapter, .section, .subsection, .figure, .table
+    - Evitar posicionamentos absolutos; preferir layout fluido (compatível com EPUB)
+    - Tipografia com fallback, fonte Montserrat se disponível
 */
 
 /* Reset mínimo e acessibilidade */
@@ -211,6 +211,7 @@ body.book {
   margin-top: 0.5rem;
   color: #444;
   font-size: 0.95rem;
+  text-align: center;
 }
 /* Evitar que figuras e tabelas quebrem no meio ao imprimir */
 .figure,
@@ -234,10 +235,10 @@ table {
 }
 .table__caption {
   caption-side: top;
-  text-align: left;
   color: #444;
   margin-bottom: 0.5rem;
   font-weight: 600;
+  text-align: center;
 }
 .table th,
 .table td {
@@ -350,3 +351,9 @@ a {
 }
 
 /* Cabeçalhos correntes omitidos para compatibilidade ampla de navegadores */
+
+/* Fallback: centraliza mesmo quando não usar as classes utilitárias */
+figure > figcaption,
+table > caption {
+  text-align: center;
+}
